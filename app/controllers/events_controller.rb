@@ -9,8 +9,14 @@ class EventsController < ApplicationController
   end
 
   def show
+p "CONTROLLER::show =>"
+p "    end_time              = " + @event.end_time.to_s + " (this is not the correct dt)"
+p "    Time.now              = " + Time.now.to_s + " (this is not the correct dt)"
+p "    (end_time < Time.now) = " + (@event.end_time < Time.now).to_s
+p "    url                   = '" + @event.url.to_s + "'"
+
     @event_schedule = @event.current_occurences
-    #puts @event_schedule
+    @event.url      = "" if @event.end_time < Time.now
   end
 
   def index

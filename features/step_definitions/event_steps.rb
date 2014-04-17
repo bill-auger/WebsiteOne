@@ -3,7 +3,13 @@ Given(/^I am on Events index page$/) do
 end
 
 Given(/^following events exist:$/) do |table|
+
   table.hashes.each do |hash|
+
+p "TEST::creating_event =>"
+p "    start_time = " + hash[:start_time] + " (this is the correct dt)"
+p "    end_time   = " + hash[:end_time] + " (this is the correct dt)"
+
     Event.create!(hash)
   end
 end
@@ -45,12 +51,42 @@ Then(/^I should be on the event "([^"]*)" page for "([^"]*)"$/) do |page, name|
   case page
     when 'show'
       current_path.should eq event_path(event)
-
     else
       current_path.should eq eval("#{page}_event_path(event)")
-
   end
 end
+
 Given(/^the date is "([^"]*)"$/) do |jump_date|
   Delorean.time_travel_to(Time.parse(jump_date))
+end
+
+
+### event_expire_url.feature steps ###
+
+Given(/^the HOA link for the "(.*?)" event is (.*?)set$/) do | name , is_not_set |
+  event     = Event.find_by_name name
+  event.url = ((is_not_set)? "" : MOCK_HANGOUT_URL) ; event.save!
+end
+
+# Given(/^the HOA link for the "(.*?)" event is not set$/) do | name |
+#   event = Event.find_by_name name
+#   event.url = "" ; event.save!
+# end
+
+Then(/^I should see the "(.*?)" message$/) do | msg_name |
+  case msg_name
+    when 'hangout url unset'
+      expected_msg = HANGOUT_UNSET_MSG
+  end
+
+p "msg_name=" + msg_name + " expected_msg=" + expected_msg
+
+  page.should have_content expected_msg
+end
+
+Then(/^I should see the "(.*?)" link$/) do | link_name |
+  case link_name
+    when 'HOA'
+      page.should have_content MOCK_HANGOUT_URL
+  end
 end
