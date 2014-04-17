@@ -10,6 +10,10 @@ production: &prod
 #   <<: *prod
 #   database: websiteone_development
 
+# test: &test
+#   <<: *dev
+#   database: websiteone_test
+
 development: &dev
   adapter: sqlite3
   database: db/development.sqlite3
@@ -18,7 +22,7 @@ development: &dev
 
 test: &test
   <<: *dev
-  database: websiteone_test
+  database: db/test.sqlite3
 
 cucumber:
   <<: *test

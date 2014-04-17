@@ -7,8 +7,8 @@ Given(/^following events exist:$/) do |table|
   table.hashes.each do |hash|
 
 p "TEST::creating_event =>"
-p "    start_time = " + hash[:start_time] + " (this is the correct dt)"
-p "    end_time   = " + hash[:end_time] + " (this is the correct dt)"
+p "    start_time            = " + hash[:start_time] + " (this is the correct dt)"
+p "    end_time              = " + hash[:end_time] + " (this is the correct dt)"
 
     Event.create!(hash)
   end
@@ -63,6 +63,8 @@ end
 
 ### event_expire_url.feature steps ###
 
+Given(/^I am signed in$/) { create_user ; sign_in }
+
 Given(/^the HOA link for the "(.*?)" event is (.*?)set$/) do | name , is_not_set |
   event     = Event.find_by_name name
   event.url = ((is_not_set)? "" : MOCK_HANGOUT_URL) ; event.save!
@@ -79,7 +81,8 @@ Then(/^I should see the "(.*?)" message$/) do | msg_name |
       expected_msg = HANGOUT_UNSET_MSG
   end
 
-p "msg_name=" + msg_name + " expected_msg=" + expected_msg
+p "TEST::matching_message =>"
+p "    Time.now              = " + Time.now.to_s + " (this is the correct dt)"
 
   page.should have_content expected_msg
 end

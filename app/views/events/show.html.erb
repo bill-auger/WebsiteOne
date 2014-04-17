@@ -1,6 +1,6 @@
 <% p "VIEW::show =>" %>
-<% p "    url          = '" + @event.url.to_s + "'" %>
-<% p "    url.present? = " + @event.url.present?.to_s %>
+<% p "    url                   = '" + @event.url.to_s + "'" %>
+<% p "    url.present?          = " + @event.url.present?.to_s %>
 
 <% url = @event.url if @event.url %>
 <script src="https://apis.google.com/js/platform.js"></script>
@@ -35,10 +35,10 @@
   <div class="col-lg-12">
     <% if user_signed_in? %>
       <% if url.present? %>
-        signedin Hangout link:  <%= link_to url, url, id: 'hoa-link' %>
+        Hangout link:  <%= link_to url, url, id: 'hoa-link' %>
         - <button id="toggle-edit" class="btn btn-sm btn-default">Edit</button>
       <% else %>
-        <%= "Hangout url unavailable. Please visit The Pair Programming community at: signedin.com" %>
+        <%= HANGOUT_UNSET_MSG %>
         - <button id="toggle-add" class="btn btn-sm btn-default">Add url</button>
       <% end %>
       <%= form_for @event, url: update_only_url_event_path(@event), html: {:class => 'form-vertical edit_url', :id => 'event-form'} do |f| %>
@@ -51,9 +51,9 @@
         </div>
       <% end %>
     <% elsif url.present? %>
-      notsignedin Hangout link:  <%= link_to url, url, id: 'hoa-link' %>
+      Hangout link:  <%= link_to url, url, id: 'hoa-link' %>
     <% else %>
-      <%= "Hangout url unavailable. Please visit The Pair Programming community at: notsignedin.com" %>
+      <%= HANGOUT_UNSET_MSG %>
     <% end %>
   </div>
 
