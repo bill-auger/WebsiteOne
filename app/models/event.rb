@@ -96,4 +96,25 @@ class Event < ActiveRecord::Base
       errors.add(:to_date, 'must come after the from date')
     end
   end
+
+  def lazy_expire_event
+    now = Time.now
+    if self.end_time < now
+      # reset hangout url
+      self.url = ""
+
+      # advance event datetimes if repeating
+      unless self.repeat_ends && self.repeat_ends_on < now
+        if self.repeats.eql? 'weekly'
+#        next_occurrence_interval = self.repeats_every_n_weeks.week
+#        self.event_date += next_occurrence_interval
+#        self.start_time += next_occurrence_interval
+#        self.end_time = += next_occurrence_interval
+        else ; # is there an else ?
+        end
+#        self.save!
+      end
+    end
+  end
+
 end

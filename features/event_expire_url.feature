@@ -27,10 +27,12 @@ Feature: Events
 
   @time-travel-step
   Scenario: Make sure the HOA link is reset after the end time (logged out)
-    Given I am on the show page for event "ScrumWithUrl"
+    Given the HOA link for the "ScrumWithUrl" event is set
+    And I am on the show page for event "ScrumWithUrl"
     And the date is "2014/02/03 02:01:00 UTC"
     And I should see the "hangout url unset" message
-# TODO: identical behavior when logged but through distinct implementation paths
+
+# TODO: identical behavior when signed in but through distinct implementation paths
 #         either refactor the 'show' view or uncomment these
 #   @time-travel-step
 #   Scenario: Make sure the HOA link is visible when it is set (logged in)
@@ -51,6 +53,7 @@ Feature: Events
 #   @time-travel-step
 #   Scenario: Make sure the HOA link is reset after the end time (logged in)
 #     Given I am signed in
+#     And the HOA link for the "ScrumWithUrl" event is set
 #     And I am on the show page for event "ScrumWithUrl"
 #     And the date is "2014/02/03 02:01:00 UTC"
 #     And I should see the "hangout url unset" message

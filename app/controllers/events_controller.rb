@@ -16,7 +16,7 @@ p "    (end_time < Time.now) = " + (@event.end_time < Time.now).to_s
 p "    url                   = '" + @event.url.to_s + "'"
 
     @event_schedule = @event.current_occurences
-    @event.url      = "" if @event.end_time < Time.now
+    @event.lazy_expire_event
   end
 
   def index
