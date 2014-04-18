@@ -3,7 +3,7 @@ Feature: Events
   As a site user
   In order to join a hangout via the event 'show' page
   I would like to see the event link when it has been set
-  And I would like to see an error message when no hangout url is set
+  Andalso I would like to see an error message when no hangout url is set
   Pivotal Tracker: https://www.pivotaltracker.com/story/show/69250734
 
   Background:
@@ -30,7 +30,7 @@ Feature: Events
     Given the HOA link for the "ScrumWithUrl" event is set
     And I am on the show page for event "ScrumWithUrl"
     And the date is "2014/02/03 02:01:00 UTC"
-    And I should see the "hangout url unset" message
+    Then I should see the "hangout url unset" message
 
 # TODO: identical behavior when signed in but through distinct implementation paths
 #         either refactor the 'show' view or uncomment these
@@ -56,4 +56,4 @@ Feature: Events
 #     And the HOA link for the "ScrumWithUrl" event is set
 #     And I am on the show page for event "ScrumWithUrl"
 #     And the date is "2014/02/03 02:01:00 UTC"
-#     And I should see the "hangout url unset" message
+#     Then I should see the "hangout url unset" message

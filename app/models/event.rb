@@ -18,6 +18,7 @@ class Event < ActiveRecord::Base
     if Event.exists?
       @events = []
       Event.where(['category = ?', 'Scrum']).each do |event|
+        event.lazy_expire_event
         @events << event.current_occurences
       end
       @events = @events.flatten.sort_by { |e| e[:time] }
@@ -68,6 +69,7 @@ class Event < ActiveRecord::Base
   end
 
   def current_occurences
+    lazy_expire_event
     [].tap do |occurences|
       self.schedule.occurrences_between(Date.today, Date.today + 10.days).each do |time|
         unless time <= DateTime.now
