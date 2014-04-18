@@ -33,7 +33,7 @@ Feature: Events
     Then I should see the "hangout url unset" message
 
 # TODO: identical behavior when signed in but through distinct implementation paths
-#         either refactor the 'show' view or uncomment these
+#         either use the commented refactoring in the 'show' view or uncomment these
 #   @time-travel-step
 #   Scenario: Make sure the HOA link is visible when it is set (logged in)
 #     Given I am signed in

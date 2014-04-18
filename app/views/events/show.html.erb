@@ -57,6 +57,31 @@
     <% end %>
   </div>
 
+<!-- TODO: this is the preceeding <div> with the hangout link factored out
+             to simplify the cucumber feature (see ./features/event_expire_url.feature)
+
+  <div class="col-lg-12">
+    <%= (url.present?)? "Hangout link: #{link_to url, url, id: 'hoa-link'}" : HANGOUT_UNSET_MSG %>
+
+    <% if user_signed_in? %>
+      <% if url.present? %>
+        - <button id="toggle-edit" class="btn btn-sm btn-default">Edit</button>
+      <% else %>
+        - <button id="toggle-add" class="btn btn-sm btn-default">Add url</button>
+      <% end %>
+      <%= form_for @event, url: update_only_url_event_path(@event), html: {:class => 'form-vertical edit_url', :id => 'event-form'} do |f| %>
+        <div class='form-group' style="margin-top: 10px">
+          <%= f.label :url, :class => 'control-label' -%>
+          <%= f.text_field :url, :class => 'form-control', :value => "#{url}" -%>
+        </div>
+        <div class='form-group'>
+          <%= f.submit 'Save', class: 'btn btn-default', data: {disable_with: 'Working...'} %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+-->
+
 </div>
 
 

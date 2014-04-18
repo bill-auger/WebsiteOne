@@ -108,11 +108,12 @@ class Event < ActiveRecord::Base
       # advance event datetimes if repeating
       unless self.repeat_ends && self.repeat_ends_on < now
         if self.repeats.eql? 'weekly'
-#        next_occurrence_interval = self.repeats_every_n_weeks.week
-#        self.event_date += next_occurrence_interval
-#        self.start_time += next_occurrence_interval
-#        self.end_time = += next_occurrence_interval
-        else ; # is there an else ?
+#        next_occurrence_interval   = self.repeats_every_n_weeks.week
+#        self.event_date           += next_occurrence_interval
+#        self.start_time           += next_occurrence_interval
+#        self.end_time             += next_occurrence_interval
+#        self.next_occurrence_time += next_occurrence_interval
+        else ; # is there an else besides 'never' ?
         end
 #        self.save!
       end
