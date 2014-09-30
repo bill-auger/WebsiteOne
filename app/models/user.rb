@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
 
   has_many :authentications, dependent: :destroy
   has_many :projects
+  has_many :blogs
   has_many :documents
   has_many :articles
 

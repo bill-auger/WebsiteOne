@@ -1,9 +1,10 @@
 class ProjectsController < ApplicationController
+  include DocumentsHelper
   layout 'with_sidebar'
   before_filter :authenticate_user!, only: [:new, :edit, :update, :destroy]
   before_action :set_project, only: [:show, :edit, :update, :destroy]
   before_action :get_current_stories, only: [:show]
-  include DocumentsHelper
+  before_action :documents, only: [:show]
 
 #TODO YA Add controller specs for all the code
 
@@ -13,9 +14,11 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    documents
+    @blog    = @project.blogs.build :user_id => current_user.id
+#    @blog.user_id = current_user.id
+    @blogs   = @project.blogs
     @members = @project.followers.reject { |member| !member.display_profile }
-    @videos = Youtube.project_videos(@project, @members) if @project
+    @videos  = Youtube.project_videos(@project, @members) if @project
   end
 
   def new

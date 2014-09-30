@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140414125301) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20140517163310) do
 
   create_table "articles", force: true do |t|
     t.integer  "user_id"
@@ -25,8 +22,8 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.datetime "updated_at"
   end
 
-  add_index "articles", ["slug"], name: "index_articles_on_slug", unique: true, using: :btree
-  add_index "articles", ["title"], name: "index_articles_on_title", using: :btree
+  add_index "articles", ["slug"], name: "index_articles_on_slug", unique: true
+  add_index "articles", ["title"], name: "index_articles_on_title"
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id",    null: false
@@ -36,7 +33,15 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.datetime "updated_at"
   end
 
-  add_index "authentications", ["user_id"], name: "index_authentications_on_user_id", using: :btree
+  add_index "authentications", ["user_id"], name: "index_authentications_on_user_id"
+
+  create_table "blogs", force: true do |t|
+    t.string   "text"
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "documents", force: true do |t|
     t.string   "title"
@@ -49,8 +54,8 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.string   "slug"
   end
 
-  add_index "documents", ["slug", "user_id"], name: "index_documents_on_slug_and_user_id", unique: true, using: :btree
-  add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
+  add_index "documents", ["slug", "user_id"], name: "index_documents_on_slug_and_user_id", unique: true
+  add_index "documents", ["user_id"], name: "index_documents_on_user_id"
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -71,7 +76,7 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.string   "slug"
   end
 
-  add_index "events", ["slug"], name: "index_events_on_slug", unique: true, using: :btree
+  add_index "events", ["slug"], name: "index_events_on_slug", unique: true
 
   create_table "follows", force: true do |t|
     t.integer  "followable_id",                   null: false
@@ -83,12 +88,12 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.datetime "updated_at"
   end
 
-  add_index "follows", ["followable_id", "followable_type"], name: "fk_followables", using: :btree
-  add_index "follows", ["follower_id", "follower_type"], name: "fk_follows", using: :btree
+  add_index "follows", ["followable_id", "followable_type"], name: "fk_followables"
+  add_index "follows", ["follower_id", "follower_type"], name: "fk_follows"
 
   create_table "projects", force: true do |t|
     t.string   "title"
-    t.text     "description"
+    t.text     "description",        limit: 255
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -98,8 +103,8 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.string   "pivotaltracker_url"
   end
 
-  add_index "projects", ["slug"], name: "index_projects_on_slug", unique: true, using: :btree
-  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
+  add_index "projects", ["slug"], name: "index_projects_on_slug", unique: true
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id"
 
   create_table "static_pages", force: true do |t|
     t.string   "title"
@@ -110,7 +115,7 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.datetime "updated_at"
   end
 
-  add_index "static_pages", ["slug"], name: "index_static_pages_on_slug", unique: true, using: :btree
+  add_index "static_pages", ["slug"], name: "index_static_pages_on_slug", unique: true
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
@@ -122,8 +127,8 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
 
   create_table "tags", force: true do |t|
     t.string "name"
@@ -160,9 +165,9 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.boolean  "receive_mailings",       default: true
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["slug"], name: "index_users_on_slug", unique: true
 
   create_table "versions", force: true do |t|
     t.string   "item_type",  null: false
@@ -173,6 +178,6 @@ ActiveRecord::Schema.define(version: 20140414125301) do
     t.datetime "created_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
 
 end

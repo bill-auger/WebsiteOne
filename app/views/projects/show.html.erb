@@ -54,23 +54,86 @@
 <div class="small-divider"></div>
 
 <ul class="nav nav-tabs">
-  <li id="documents" class="active">
+  <li id="blog" class="active">
+    <a href="#blog_list" data-toggle="tab">Blog</a>
+  </li>
+  <li id="documentss">
     <a href="#documents_list" data-toggle="tab">Documents (<%= @documents.roots.count %>)</a>
   </li>
   <li id="members">
     <a href="#members_list" data-toggle="tab">Members (<%= @members.count %>)</a>
   </li>
   <li id="videos">
-    <a href="#videos_list" data-toggle="tab"> Videos (<%= @videos.count %>)</a>
+    <a href="#videos_list" data-toggle="tab">Videos (<%= @videos.count %>)</a>
   </li>
+
+<% unless @stories.nil? %>
+
   <li id="activities">
-    <a href="#activities_list" data-toggle="tab"> Activity</a>
+    <a href="#activities_list" data-toggle="tab">Activity (<%= @stories.count %>)</a>
   </li>
+
+<% end %>
+
 </ul>
+
+
+<style type="text/css"> <!-- TODO: move these into css -->
+
+  .listings-empty   { margin-top: 20px ; }
+  #blogs-ul li      { border: 1px solid ; border-radius: 5px ; padding: 10px ; }
+  div.new-blog-btns { text-align: right ; }
+</style>
+<%
+
+#'$("#new-blog-div").removeClass("hidden") ; return false ; '
+toggle_new_blog_js = '
+  $("#new-blog-a").addClass("hidden") ;
+  $("#new-blog-div").removeClass("hidden") ;
+  return false ; '
+
+#'$("#new-blog-div").addClass("hidden") ; return false ; '
+cancel_new_blog_js = '
+  $("#new-blog-a").removeClass("hidden") ;
+  $("#new-blog-div").addClass("hidden") ;
+  return false ; '
+%>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane active" id="documents_list">
+  <div id="blogs-div" class="tab-pane active">
+    <div class="new-blog-btns">
+      <%= link_to 'New' , '#' , :id => 'new-blog-a' , :onclick => toggle_new_blog_js , :type => 'button' , :class => 'btn btn-default' %>
+    </div>
+    <%= form_for [@project , @blog] , :html => { :id => 'new-blog-div' , :class => 'form-horizontal hidden' , :role => 'form' } do |f| %>
+      <div class="new-blog-btns">
+        <%= link_to 'Cancel' , '#' , :onclick => cancel_new_blog_js , :type => 'button' , :class => 'btn btn-default' %>
+        <%= f.submit 'Submit' , :class => 'btn btn-default' %>
+      </div>
+      <%= f.text_area :text , :class => 'form-control' , 'rows' => 10 , :placeholder => 'Add something interesting'%>
+      <%= f.hidden_field :project_id %>
+      <%= f.hidden_field :user_id %>
+    <% end %>
+
+    <% if @blogs.empty? %>
+      <p class="listings-empty">Nothing yet</p>
+    <% else %>
+      <ul id="blogs-ul" class="listings">
+        <% @blogs.reverse.each do | a_blog | %>
+          <% next if a_blog.new_record? %>
+
+          <li class="listings-item">
+            <strong>
+              <%= link_to "#{a_blog.user.display_name}" , (user_path a_blog.user_id) %>:
+            </strong>
+            <%= a_blog.text %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+
+  <div class="tab-pane" id="documents_list">
     <% unless @documents.empty? %>
         <h2>Related documents</h2>
         <ul class="listings">
@@ -128,7 +191,6 @@
             <h4 id="video_contents"><%= @videos.first[:content] %></h4>
             <iframe id="ytplayer" type="text/html" width="340" height="210"
                     src="<%= video_embed_link(@videos.first) %>" frameborder="0"></iframe>
-
         <% end %>
       </div>
     </div>

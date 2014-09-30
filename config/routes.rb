@@ -10,6 +10,8 @@ WebsiteOne::Application.routes.draw do
       get :unfollow
     end
 
+    resources :blogs, :format => false
+
     resources :documents, :format => false do
       put :mercury_update
       get :mercury_saved
